@@ -1,0 +1,30 @@
+<project name="perly" basedir="." default="unzip-language-pack">
+
+    <loadproperties srcFile="languagepack.properties"/>
+    
+    <import file="unzip_language_pack.xml"/>
+    <import file="compare_folders.xml"/>
+
+	<target name="display-args">
+       <echo>Properties</echo>
+       <echo>locale: ${language}_${region}</echo>
+       <echo>base unzip folder: ${base.unzip.folder}</echo>
+       <echo>base fix folder: ${base.dbfix.folder}</echo>
+       <echo>target unzip folder: ${target.unzip.folder}</echo>
+       <echo>target fix folder: ${target.dbfix.folder}</echo>
+    </target>
+	
+    <target name="unzip" depends="unzip-lp"/>
+	
+    <target name="fix-database" depends="unzip, exec-db-fix-script, diff-compare-folders"/>
+    
+    <target name="exec-db-fix-script">
+        <exec executable="perl" dir="${basedir}">
+            <arg value="fix_Database_for_checkin.pl"/>
+            <arg value="c:\l10nProject\5050_Base\EJBServer"/>
+        </exec>
+    </target>
+    
+    
+    
+</project>
